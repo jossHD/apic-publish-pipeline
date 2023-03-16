@@ -4,6 +4,10 @@ trigger:
 pool: 
   name: Windows Agent
 
+variables: 
+  - template: variables.yml
+
+
 stages:
 
 - stage: ProductOrgQA
