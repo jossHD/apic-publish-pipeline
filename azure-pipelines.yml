@@ -1,0 +1,21 @@
+trigger:
+- main
+
+pool: 
+  name: Windows Agent
+
+stages:
+
+- stage: ProductOrgQA
+  displayName: Publish product to QA Organization
+  jobs: 
+  - deployment: PublishProduct
+    workspace:
+      clean: all
+    displayName: Publishing product of QA
+    environment: $(environmentValue)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: templates/publishing-product.yml
