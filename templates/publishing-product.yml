@@ -2,7 +2,7 @@ steps:
 - checkout: self
 
 - task: CmdLine@2
-  displayName: 'Login Org Dev'
+  displayName: 'Login Org QA'
   inputs:
     script: 'apic login -s $(server-apic) -r $(region-apic)  -u $(user-apic-qa) -p $(pass-apic-qa)'
 
@@ -29,6 +29,6 @@ steps:
     script: 'apic products:list-all -s $(server-apic) -o $(name-apic-qa) --scope catalog --catalog  qa'
 
 - task: CmdLine@2
-  displayName: 'Logout Org Dev'
+  displayName: 'Logout Org QA'
   inputs:
     script: 'apic logout -s $(server-apic)'

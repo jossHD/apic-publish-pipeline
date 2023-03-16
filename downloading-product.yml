@@ -2,9 +2,9 @@ steps:
 - checkout: self
 
 - task: CmdLine@2
-  displayName: 'Login Org QA'
+  displayName: 'Login Org Dev'
   inputs:
-    script: 'apic login -s $(server-apic) -r $(region-apic)  -u $(user-apic-qa) -p $(pass-apic-qa)'
+    script: 'apic login -s $(server-apic) -r $(region-apic)  -u $(user-apic-dev) -p $(pass-apic-dev)'
 
 - task: CmdLine@2
   displayName: 'List all products'
@@ -44,6 +44,6 @@ steps:
 
 
 - task: CmdLine@2
-  displayName: 'Logout Org QA'
+  displayName: 'Logout Org Dev'
   inputs:
     script: 'apic logout -s $(server-apic)'
