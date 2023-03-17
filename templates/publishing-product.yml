@@ -19,11 +19,16 @@ steps:
       apic draft-apis:create templates\assets\$(name-api-002)_$(version-api-002).yaml -s $(server-apic) -o $(name-apic-qa)
 
 - task: CmdLine@2
+  displayName: 'Recreating product'
+  inputs:
+    script: |
+      apic draft-products:create  templates\assets\$(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) --format json
+
+- task: CmdLine@2
   displayName: 'Pubish product'
   inputs:
     script: |
-      apic draft-products:publish  templates\assets\$(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) -c qa
-   
+      apic draft-products:publish  $(name-product) -s $(server-apic) -o $(name-apic-qa) -c qa --format json
 
 - task: CmdLine@2
   displayName: 'List all products'
