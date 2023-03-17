@@ -34,7 +34,7 @@ steps:
   displayName: 'Pubish product'
   inputs:
     script: |
-      apic draft-products:publish  templates\assets\$(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) --scope catalog -c qa --format json
+      apic products:publish  $(name-product):$(version-product) -s $(server-apic) -o $(name-apic-qa) --scope catalog -c qa --format json
 
 - task: CmdLine@2
   displayName: 'List all products'
