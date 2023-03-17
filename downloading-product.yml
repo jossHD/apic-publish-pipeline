@@ -11,6 +11,7 @@ steps:
   inputs:
     script: 'apic products:list-all -s $(server-apic) -o $(name-apic-dev) --scope catalog --catalog  demo'
 
+#-----------------
 
 - task: CmdLine@2
   displayName: 'Download Product'
@@ -20,12 +21,12 @@ steps:
       apic draft-products:get $(name-product):$(version-product) -s $(server-apic) -o $(name-apic-dev)
 
 - task: CmdLine@2
-  displayName: 'Downliad APIs'
+  displayName: 'Download APIs'
   inputs:
     script: |
       cd templates/assets
-      apic draft-apis:get $(name-api-001):$(version-api-001) -o $(name-apic-dev) -s {server}
-      apic draft-apis:get $(name-api-002):$(version-api-002) -o $(name-apic-dev) -s {server}
+      apic draft-apis:get $(name-api-001):$(version-api-001) -o $(name-apic-dev) -s ${server}
+      apic draft-apis:get $(name-api-002):$(version-api-002) -o $(name-apic-dev) -s ${server}
 
 - task: CmdLine@2
   displayName: 'Setting git config'
