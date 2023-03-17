@@ -15,13 +15,13 @@ steps:
   displayName: 'Pubishing APIs'
   inputs:
     script: |
-      apic draft-apis:create templates\assets\$(name-api-001):$(version-api-001).yaml -s $(server-apic) -o $(name-apic-qa)
-      apic draft-apis:create templates\assets\$(name-api-002):$(version-api-002).yaml -s $(server-apic) -o $(name-apic-qa)
+      apic draft-apis:create templates\assets\$(name-api-001)_$(version-api-001).yaml -s $(server-apic) -o $(name-apic-qa)
+      apic draft-apis:create templates\assets\$(name-api-002)_$(version-api-002).yaml -s $(server-apic) -o $(name-apic-qa)
 
 - task: CmdLine@2
   displayName: 'Pubishing product'
   inputs:
-    script: 'apic products:publish templates\assets\$(name-product):$(version-product).yaml  --catalog  qa -s $(server-apic) -o $(name-apic-qa) --format json'
+    script: 'apic products:publish templates\assets\$(name-product)_$(version-product).yaml  --catalog  qa -s $(server-apic) -o $(name-apic-qa) --format json'
 
 - task: CmdLine@2
   displayName: 'List all products'
