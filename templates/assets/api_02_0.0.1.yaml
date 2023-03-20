@@ -1,0 +1,92 @@
+swagger: "2.0"
+info:
+  title: API_02
+  version: 0.0.1
+  x-ibm-name: api_02
+schemes:
+- https
+basePath: /Banco_Rosado_API_Lab/
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /InnovationProject:
+    post:
+      tags:
+      - InnovationProject
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: InnovationProject.create
+      parameters:
+      - name: data
+        in: body
+        description: Model instance data
+        required: true
+        schema:
+          $ref: '#/definitions/InnovationProject'
+      responses:
+        "201":
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/InnovationProject'
+definitions:
+  InnovationProject:
+    description: ""
+    type: object
+    properties:
+      NameProject:
+        type: string
+      Attendant:
+        type: string
+      Email:
+        type: string
+      DescriptionOfProyect:
+        type: string
+      AttachedFiles:
+        type: string
+      CaseReference:
+        type: string
+      ContactID:
+        type: string
+      PhoneNumber:
+        type: number
+      EstimatedMonths:
+        type: number
+    additionalProperties: false
+host: $(catalog.host)
+x-ibm-configuration:
+  cors:
+    enabled: true
+  properties:
+    target-url:
+      value: http://is-banco-rosado-http-my-cp4i.mycluster-dal12-jlhd-ccc03eca20d26e6ac64511f874a64b9b-0000.us-south.containers.appdomain.cloud
+      description: The URL of the target service
+      encoded: false
+  phase: realized
+  enforced: true
+  gateway: datapower-api-gateway
+  assembly:
+    execute:
+    - invoke:
+        title: invoke
+        version: 2.0.0
+        verb: keep
+        target-url: $(target-url)$(request.path)
+        follow-redirects: false
+        timeout: 60
+        parameter-control:
+          type: allowlist
+          values: []
+        header-control:
+          type: blocklist
+          values: []
+        inject-proxy-headers: true
+  type: rest
+  testable: true
+securityDefinitions:
+  clientID:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+- clientID: []
