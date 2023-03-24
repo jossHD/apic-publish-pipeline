@@ -1,0 +1,143 @@
+swagger: "2.0"
+info:
+  title: API_01
+  version: 0.0.1
+  x-ibm-name: api_01
+schemes:
+- https
+basePath: /Banco_API/
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /Customer:
+    post:
+      tags:
+      - Customer
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Customer.create
+      parameters:
+      - name: data
+        in: body
+        description: Model instance data
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        "201":
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Customer'
+  /Customer/{idCliente}:
+    get:
+      tags:
+      - Customer
+      summary: Find a model instance by {{id}} from the data source.
+      operationId: Customer.findById
+      parameters:
+      - name: idCliente
+        in: path
+        description: Customer id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Customer'
+    put:
+      tags:
+      - Customer
+      summary: Replace an existing model instance or insert a new one.
+      operationId: Customer.patchAttributes
+      parameters:
+      - name: idCliente
+        in: path
+        description: Customer id
+        required: true
+        type: string
+      - name: data
+        in: body
+        description: An object of model property name/value pairs
+        required: true
+        schema:
+          $ref: '#/definitions/Customer'
+      responses:
+        "200":
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Customer'
+        "201":
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Customer'
+  /Customer/{idCliente}/deletecustomer:
+    delete:
+      tags:
+      - Customer
+      operationId: Customer.deletecustomer
+      parameters:
+      - name: idCliente
+        in: path
+        description: Customer idCliente
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Customer'
+definitions:
+  Customer:
+    description: ""
+    type: object
+    properties:
+      idCliente:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      cash:
+        type: number
+      type:
+        type: string
+    additionalProperties: false
+host: $(catalog.host)
+x-ibm-configuration:
+  cors:
+    enabled: true
+  properties:
+    target-url:
+      value: http://is-banco-http-my-cp4i.mycluster-dal12-jlhd-ccc03eca20d26e6ac64511f874a64b9b-0000.us-south.containers.appdomain.cloud
+      description: The URL of the target service
+      encoded: false
+  phase: realized
+  enforced: true
+  gateway: datapower-api-gateway
+  assembly:
+    execute:
+    - invoke:
+        title: invoke
+        version: 2.0.0
+        verb: keep
+        target-url: $(target-url)$(request.path)
+        follow-redirects: false
+        timeout: 60
+        parameter-control:
+          type: allowlist
+          values: []
+        header-control:
+          type: blocklist
+          values: []
+        inject-proxy-headers: true
+  type: rest
+  testable: true
+securityDefinitions:
+  clientID:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+- clientID: []
