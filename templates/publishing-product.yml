@@ -50,7 +50,7 @@ steps:
 - task: CmdLine@2
   displayName: 'Publish product'
   inputs:
-    script: 'apic draft-products:publish -s $(server-apic) --catalog=qa --org $(name-apic-qa) productfinal.yaml'
+    script: 'apic draft-products:publish -s $(server-apic) --catalog=qa --org $(name-apic-qa) product.yaml'
     workingDirectory: '$(system.defaultworkingdirectory)/templates/assets'
 
 - task: CmdLine@2
