@@ -24,7 +24,7 @@ steps:
   displayName: 'Recreating product'
   inputs:
     targetType: 'inline'
-    script: 'apic draft-products:create $(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) --format yaml | Out-File -filepath new-product.yaml'
+    script: 'apic draft-products:create $(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) | Out-File -filepath new-product.yaml'
     workingDirectory: '$(system.defaultworkingdirectory)/templates/assets'
 
 - task: CmdLine@2
