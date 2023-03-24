@@ -18,23 +18,40 @@ steps:
       apic draft-apis:create templates\assets\$(name-api-001)_$(version-api-001).yaml -s $(server-apic) -o $(name-apic-qa)
       apic draft-apis:create templates\assets\$(name-api-002)_$(version-api-002).yaml -s $(server-apic) -o $(name-apic-qa)
 
-- task: CmdLine@2
+##--------------------------
+
+- task: PowerShell@2
   displayName: 'Recreating product'
   inputs:
-    script: |
-      apic draft-products:create  templates\assets\$(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) --format json
+    targetType: 'inline'
+    script: 'apic draft-products:create $(name-product)_$(version-product).yaml -s $(server-apic) -o $(name-apic-qa) --format yaml | Out-File -filepath new-product.yaml'
+    workingDirectory: '$(system.defaultworkingdirectory)/templates/assets'
 
 - task: CmdLine@2
   displayName: 'List all products'
   inputs:
     script: 'apic draft-products:list-all -s $(server-apic) -o $(name-apic-qa)'
 
+- task: PowerShell@2
+  displayName: 'Catch draft_product_url'
+  inputs:
+    targetType: 'inline'
+    script: |
+      ((Get-Content new-product.yaml -Raw) -replace "demo-org:1.0.0   ",'').trim() | Out-File -filepath new-product.yaml
+      echo step1
+      Get-Content new-product.yaml | ? {$_ -ne ""} | Out-File -filepath dash-enpoint.yaml
+      echo step2
+      $file_data = Get-Content dash-enpoint.yaml
+      echo step3
+      Set-Content -Path "product.yaml" -Value ("draft_product_url: $file_data")
+      echo step4
+    workingDirectory: '$(system.defaultworkingdirectory)/templates/assets'
 
 - task: CmdLine@2
-  displayName: 'Pubish product'
+  displayName: 'Publish product'
   inputs:
-    script: |
-      apic products:publish  $(name-product):$(version-product) -s $(server-apic) -o $(name-apic-qa) --scope catalog -c qa --format json
+    script: 'apic draft-products:publish -s $(server-apic) --catalog=qa --org $(name-apic-qa) productfinal.yaml'
+    workingDirectory: '$(system.defaultworkingdirectory)/templates/assets'
 
 - task: CmdLine@2
   displayName: 'List all products'
