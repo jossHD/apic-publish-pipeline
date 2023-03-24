@@ -18,7 +18,6 @@ steps:
       apic draft-apis:create templates\assets\$(name-api-001)_$(version-api-001).yaml -s $(server-apic) -o $(name-apic-qa)
       apic draft-apis:create templates\assets\$(name-api-002)_$(version-api-002).yaml -s $(server-apic) -o $(name-apic-qa)
 
-##--------------------------
 
 - task: PowerShell@2
   displayName: 'Recreating product'
@@ -38,13 +37,10 @@ steps:
     targetType: 'inline'
     script: |
       ((Get-Content new-product.yaml -Raw) -replace "demo-org:1.0.0   ",'').trim() | Out-File -filepath new-product.yaml
-      echo step1
       Get-Content new-product.yaml | ? {$_ -ne ""} | Out-File -filepath dash-enpoint.yaml
-      echo step2
       $file_data = Get-Content dash-enpoint.yaml
-      echo step3
       Set-Content -Path "product.yaml" -Value ("draft_product_url: $file_data")
-      echo step4
+      Get-Content product.yaml
     workingDirectory: '$(system.defaultworkingdirectory)/templates/assets'
 
 - task: CmdLine@2
