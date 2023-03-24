@@ -3,7 +3,6 @@ variables:
 - group: apic-cred-org-001
 - group: apic-cred-org-002
 - group: apic-product-001
-- group: env-sb-001
 - group: github-cred
 
 - name: runNumber
